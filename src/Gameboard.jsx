@@ -8,25 +8,33 @@ const initianGameBoard = [
     [null,null,null]
 ]
 
-function Gameboard({activePlayer, handleSelectedSqure}) {
+function Gameboard({ handleSelectedSqure, log}) {
 
-const [gameBoard,setGameBoard] = useState(initianGameBoard);
+// const [gameBoard,setGameBoard] = useState(initianGameBoard);
 
+// function handleClick(rowIndex, colIndex){
+   let gameBoard = initianGameBoard;
 
-function handleClick(rowIndex, colIndex){
-  
+   for(const logs of log){
+       const {selectedPlayer, selectedSqure} = logs;
+       const {row, col} = selectedSqure;
+       if(gameBoard[row][col] === null){
+           gameBoard[row][col] = selectedPlayer;
+       }
+   }
 
-    setGameBoard((preGameBoard)=>{
-        const updatedGameBoard = [...preGameBoard.map((innerArray)=>[...innerArray])]  // need to get a copy of inner elements of array. thats why we used map method
-        console.log(preGameBoard)
-        console.log(updatedGameBoard)
-        updatedGameBoard[rowIndex][colIndex] = activePlayer;
-        return updatedGameBoard;
-    })
+   // return gameBoard;
 
-    handleSelectedSqure();
-
-}
+    // setGameBoard((preGameBoard)=>{
+    //     const updatedGameBoard = [...preGameBoard.map((innerArray)=>[...innerArray])]  // need to get a copy of inner elements of array. thats why we used map method
+    //
+    //     if(updatedGameBoard[rowIndex][colIndex] === null){
+    //         updatedGameBoard[rowIndex][colIndex] = activePlayer;
+    //         handleSelectedSqure(rowIndex,colIndex);
+    //     }
+    //     return updatedGameBoard;
+    // })
+// }
 
   return (
     <ol id="game-board">
@@ -37,7 +45,7 @@ function handleClick(rowIndex, colIndex){
                        {row.map((col,colIndex)=>{
                             return (
                                 <li key={colIndex}>
-                                    <button onClick={()=>handleClick(rowIndex,colIndex)}>{col}</button>
+                                    <button onClick={()=>handleSelectedSqure(rowIndex,colIndex)}>{col}</button>
                                 </li>
                             )
                        })}
