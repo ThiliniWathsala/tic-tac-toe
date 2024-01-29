@@ -2,7 +2,7 @@ import {useState} from "react"
 import Player from "./Player"
 import Gameboard from "./Gameboard"
 import Log from "./Log.jsx";
-
+import {Winning_Combination} from './winning-combination.js'
 
 function setActivePlater(gameBoard) {
     let currentPlayer = 'X'
@@ -16,9 +16,6 @@ function setActivePlater(gameBoard) {
 
 function App() {
 
-    // const [activePlayer, setActivePlayer] = useState('X');
-    // const [gameBoard,setGameBoard] = useState(initianGameBoard);
-
     const [log, setLog] = useState([]);
 
     const activePlayer = setActivePlater(log);
@@ -26,16 +23,17 @@ function App() {
     function handleSelectedSqure(rowIndex, colIndex) {
         setLog((preLogState) => {
 
-            const currentPlayer = setActivePlater(preLogState);
+                const currentPlayer = setActivePlater(preLogState);
 
-            const updatedLog = [
-                {
-                    selectedPlayer: currentPlayer,
-                    selectedSqure: {row: rowIndex, col: colIndex}
-                }
-                , ...preLogState
-            ]
-            return updatedLog;
+                const updatedLog = [
+                    {
+                        selectedPlayer: currentPlayer,
+                        selectedSqure: {row: rowIndex, col: colIndex}
+                    }
+                    , ...preLogState
+                ]
+                return updatedLog;
+
         })
     }
 
@@ -48,7 +46,7 @@ function App() {
 
                 </ol>
                 Game Board
-                <Gameboard log={log} handleSelectedSqure={handleSelectedSqure}/>
+                <Gameboard board={log} handleSelectedSqure={handleSelectedSqure}/>
             </div>
             <Log log={log}/>
             <div>

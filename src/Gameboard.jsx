@@ -8,15 +8,15 @@ const initianGameBoard = [
     [null,null,null]
 ]
 
-function Gameboard({ handleSelectedSqure, log}) {
+function Gameboard({ handleSelectedSqure, board}) {
 
 // const [gameBoard,setGameBoard] = useState(initianGameBoard);
 
 // function handleClick(rowIndex, colIndex){
    let gameBoard = initianGameBoard;
 
-   for(const logs of log){
-       const {selectedPlayer, selectedSqure} = logs;
+   for(const boards of board){
+       const {selectedPlayer, selectedSqure} = boards;
        const {row, col} = selectedSqure;
        if(gameBoard[row][col] === null){
            gameBoard[row][col] = selectedPlayer;
@@ -45,7 +45,7 @@ function Gameboard({ handleSelectedSqure, log}) {
                        {row.map((col,colIndex)=>{
                             return (
                                 <li key={colIndex}>
-                                    <button onClick={()=>handleSelectedSqure(rowIndex,colIndex)}>{col}</button>
+                                    <button onClick={()=>handleSelectedSqure(rowIndex,colIndex)} disabled={col !== null ? true : false}>{col}</button>
                                 </li>
                             )
                        })}
