@@ -3,28 +3,30 @@ import Player from "./Player"
 import Gameboard from "./Gameboard"
 import Log from "./Log.jsx";
 
+
+function setActivePlater(gameBoard) {
+    let currentPlayer = 'X'
+
+    if (gameBoard.length > 0 && gameBoard[0].selectedPlayer === 'X') {
+        currentPlayer = 'O'
+    }
+    return currentPlayer;
+}
+
+
 function App() {
 
-    const initianGameBoard = [
-        [null, null, null],
-        [null, null, null],
-        [null, null, null]
-    ]
+    // const [activePlayer, setActivePlayer] = useState('X');
+    // const [gameBoard,setGameBoard] = useState(initianGameBoard);
 
-    const [activePlayer, setActivePlayer] = useState('X');
     const [log, setLog] = useState([]);
 
-// const [gameBoard,setGameBoard] = useState(initianGameBoard);
+    const activePlayer = setActivePlater(log);
 
     function handleSelectedSqure(rowIndex, colIndex) {
         setLog((preLogState) => {
-            setActivePlayer((currActivePlayer) => currActivePlayer === 'X' ? 'O' : 'X');
 
-            let currentPlayer = 'X'
-
-            if (log.length > 0 && preLogState[0].selectedPlayer === 'X') {
-                currentPlayer = 'O'
-            }
+            const currentPlayer = setActivePlater(preLogState);
 
             const updatedLog = [
                 {
@@ -46,7 +48,7 @@ function App() {
 
                 </ol>
                 Game Board
-                <Gameboard activePlayer={activePlayer} log={log} handleSelectedSqure={handleSelectedSqure}/>
+                <Gameboard log={log} handleSelectedSqure={handleSelectedSqure}/>
             </div>
             <Log log={log}/>
             <div>
