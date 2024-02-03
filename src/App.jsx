@@ -20,22 +20,40 @@ const initianGameBoard = [
     [null, null, null]
 ]
 
+function getWinner(gameBoard, winnersName) {
+    let winner;
+    for (const combination of Winning_Combination) {
+
+        const firstTurn = gameBoard[combination[0].row][combination[0].col];
+        const secondTurn = gameBoard[combination[1].row][combination[1].col];
+        const thirdTurn = gameBoard[combination[2].row][combination[2].col];
+
+        if (
+            firstTurn &&
+            firstTurn === secondTurn &&
+            firstTurn === thirdTurn) {
+            winner = winnersName[firstTurn];
+        }
+        return winner;
+    }
+}
+
 function App() {
 
     const [log, setLog] = useState([]);
-    const [winnersName,setWinnersName] = useState({X:'Player 1',O:'Player 2'});
+    const [winnersName, setWinnersName] = useState({X: 'Player 1', O: 'Player 2'});
 
     const activePlayer = setActivePlater(log);
 
-    let gameBoard = [...initianGameBoard.map(item=>[...item])];
-    let winner;
+    let gameBoard = [...initianGameBoard.map(item => [...item])];
+    // let winner;
     console.log(winnersName)
 
-    function handlePlayerNameChange(symbol, newName){
-        setWinnersName((preWinnerName) =>{
+    function handlePlayerNameChange(symbol, newName) {
+        setWinnersName((preWinnerName) => {
             return {
                 ...preWinnerName,
-                [symbol]:newName
+                [symbol]: newName
             }
         })
     }
@@ -48,21 +66,9 @@ function App() {
         }
     }
 
-        for (const combination of Winning_Combination) {
+    const winner = getWinner(gameBoard, winnersName);
 
-            const firstTurn = gameBoard[combination[0].row][combination[0].col];
-            const secondTurn = gameBoard[combination[1].row][combination[1].col];
-            const thirdTurn = gameBoard[combination[2].row][combination[2].col];
-
-            if (
-                firstTurn &&
-                firstTurn === secondTurn &&
-                firstTurn === thirdTurn)
-            {
-               winner = winnersName[firstTurn];
-            }
-    }
-        const hasDraw = log.length === 9 && !winner;
+    const hasDraw = log.length === 9 && !winner;
 
     function handleSelectedSqure(rowIndex, colIndex) {
         setLog((preLogState) => {
@@ -85,12 +91,16 @@ function App() {
         <menu>
             <div id="game-container">
                 <ol id="players" className='highlight-player'>
-                    <Player handlePlayerNameChange={handlePlayerNameChange} activePlayer={activePlayer === 'X'} name={winnersName.X} symbol="X"/>
-                    <Player handlePlayerNameChange={handlePlayerNameChange} activePlayer={activePlayer === 'O'} name={winnersName.O} symbol="O"/>
+                    <Player handlePlayerNameChange={handlePlayerNameChange} activePlayer={activePlayer === 'X'}
+                            name={winnersName.X} symbol="X"/>
+                    <Player handlePlayerNameChange={handlePlayerNameChange} activePlayer={activePlayer === 'O'}
+                            name={winnersName.O} symbol="O"/>
 
                 </ol>
                 Game Board
-                {(winner || hasDraw) && <GameOver winnerName={winner === 'x'? winnersName.x : winnersName.y} setLog={setLog} winner={winner} />}
+                {(winner || hasDraw) &&
+                    <GameOver winnerName={winner === 'x' ? winnersName.x : winnersName.y} setLog={setLog}
+                              winner={winner}/>}
                 <Gameboard board={gameBoard} handleSelectedSqure={handleSelectedSqure}/>
             </div>
             <Log log={log}/>
